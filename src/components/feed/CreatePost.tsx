@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useCreatePost } from "@/hooks/useCreatePost";
 import ImageUploader from "./ImageUploader";
+import { useRouter } from "next/navigation";
 
 export default function CreatePost() {
   const createPost = useCreatePost();
+  const router = useRouter();
 
   const [image, setImage] = useState<File | null>(null);
   const [caption, setCaption] = useState("");
@@ -22,6 +24,7 @@ export default function CreatePost() {
         onSuccess: () => {
           setImage(null);
           setCaption("");
+          router.back();
         },
       },
     );
@@ -44,6 +47,7 @@ export default function CreatePost() {
         <textarea
           id="caption"
           value={caption}
+          required
           onChange={(e) => setCaption(e.target.value)}
           placeholder="Create your caption"
           className="h-25.25 w-full rounded-xl border p-2"

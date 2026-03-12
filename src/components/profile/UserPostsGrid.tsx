@@ -4,7 +4,6 @@ import { useUserPosts } from "@/hooks/useUserPosts";
 import { useEffect, useRef, useState } from "react";
 import { EmptyUserPost } from "../ui/EmptyPost";
 import CommentModal from "../feed/CommentModal";
-import type { FeedItem } from "@/types/feed";
 export default function UserPostsGrid({ userName }: { userName: string }) {
   const [openComments, setOpenComments] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);

@@ -90,7 +90,7 @@ export default function CommentModal({ open, onOpenChange, postId }: Props) {
           e.preventDefault();
           inputRef.current?.focus();
         }}
-        className="fixed top-auto right-0 bottom-0 left-1/2 flex h-148 w-98.25 -translate-x-1/2 translate-y-0 justify-center gap-0 rounded-2xl bg-neutral-950/30 px-0 pt-10 pb-0 sm:max-w-300 lg:top-1/2 lg:left-1/2 lg:h-192 lg:w-300 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:pt-12"
+        className="fixed top-auto right-0 bottom-0 left-1/2 flex h-148 w-98.25 -translate-x-1/2 translate-y-0 justify-center gap-0 rounded-2xl border-none bg-neutral-950/30 px-0 pt-10 pb-0 sm:max-w-300 lg:top-1/2 lg:left-1/2 lg:h-192 lg:w-300 lg:-translate-x-1/2 lg:-translate-y-1/2 lg:pt-12"
       >
         <div className="hidden lg:block lg:size-180">
           <img src={post.imageUrl} className="h-full w-full object-contain" />

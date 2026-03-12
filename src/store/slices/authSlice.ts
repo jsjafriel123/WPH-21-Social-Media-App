@@ -61,9 +61,13 @@ const authSlice = createSlice({
     setHydrated(state) {
       state.isHydrated = true;
     },
+
+    setProfile(state, action: PayloadAction<User>) {
+      state.user = action.payload;
+    },
   },
 });
 
-export const { setAuth, logout, setHydrated } = authSlice.actions;
+export const { setAuth, logout, setHydrated, setProfile } = authSlice.actions;
 
 export default authSlice.reducer;

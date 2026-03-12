@@ -1,5 +1,6 @@
 import api from "@/lib/axios";
-
+import type { FeedItem } from "@/types/feed";
+import { ApiResponse } from "@/types/api";
 export const likePost = async (postId: number) => {
   const res = await api.post(`/api/posts/${postId}/like`);
   return res.data.data;
@@ -46,5 +47,10 @@ export const createPost = async ({
     },
   });
 
+  return res.data.data;
+};
+
+export const getPostById = async (id: number) => {
+  const res = await api.get<ApiResponse<FeedItem>>(`/api/posts/${id}`);
   return res.data.data;
 };

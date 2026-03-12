@@ -13,7 +13,7 @@ export default function Header() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
-  const { user, stats, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   // console.log("isAuth", isAuthenticated);
   // console.log("user", user);
   // console.log("user", stats);
@@ -157,7 +157,7 @@ export default function Header() {
           />
         </button>
         {isAuthenticated ? (
-          <div className="flex h-10 w-[80px] items-center gap-4">
+          <div className="flex h-10 w-fit items-center gap-4">
             <button
               onClick={() => setUserOpen((prev) => !prev)}
               className="size-10 rounded-full"

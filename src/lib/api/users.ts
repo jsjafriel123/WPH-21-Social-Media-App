@@ -1,5 +1,12 @@
 import api from "@/lib/axios";
 import { UserSearchResponse } from "@/types/user";
+import { ApiResponse } from "@/types/api";
+import { UserProfile } from "@/types/user";
+import { LikedPostsResponse } from "@/types/post";
+export const getUserProfile = async (username: string) => {
+  const res = await api.get<ApiResponse<UserProfile>>(`/api/users/${username}`);
+  return res.data.data;
+};
 
 export const searchUsers = async (
   query: string,
@@ -54,6 +61,25 @@ export const updateProfile = async ({
       "Content-Type": "multipart/form-data",
     },
   });
+
+  return res.data.data;
+};
+
+export const getUserLikedPosts = async ({
+  username,
+  page = 1,
+  limit = 20,
+}: {
+  username: string;
+  page?: number;
+  limit?: number;
+}) => {
+  const res = await api.get<ApiResponse<LikedPostsResponse>>(
+    `/api/users/${username}/likes`,
+    {
+      params: { page, limit },
+    },
+  );
 
   return res.data.data;
 };

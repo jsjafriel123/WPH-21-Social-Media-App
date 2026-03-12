@@ -7,6 +7,8 @@ import { Heart } from "lucide-react";
 import { useState } from "react";
 import CommentModal from "./CommentModal";
 import SaveBadge from "../ui/SaveBadge";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 interface Props {
   post: FeedItem;
 }
@@ -14,6 +16,8 @@ interface Props {
 export default function PostCard({ post }: Props) {
   const [openComments, setOpenComments] = useState(false);
   const toggleLike = useToggleLike();
+  const router = useRouter();
+  const { user } = useAuth();
 
   const handleLike = () => {
     toggleLike.mutate({
@@ -21,15 +25,28 @@ export default function PostCard({ post }: Props) {
       liked: post.likedByMe,
     });
   };
+
+  const isUser = post.author?.id === user?.id;
+
   return (
     <div className="flex h-142.25 w-91 flex-col gap-2 lg:h-214.5 lg:w-150 lg:gap-3">
       <div className="flex h-103.25 w-full flex-col gap-2 lg:h-169 lg:gap-3">
         <div className="flex h-11 w-full gap-2 lg:h-16 lg:gap-3">
-          <img
-            src={post.author.avatarUrl ?? "/assets/image-User.svg"}
-            alt={post.author.username}
-            className="size-11 object-cover lg:size-16"
-          />
+          <button
+            onClick={() => {
+              isUser
+                ? router.push("/myprofile")
+                : post.author?.username &&
+                  router.push(`/friend/${post.author?.username}`);
+            }}
+            className="cursor-pointer rounded-full"
+          >
+            <img
+              src={post.author.avatarUrl ?? "/assets/image-User.svg"}
+              alt={post.author.username}
+              className="size-11 rounded-2xl object-cover lg:size-16"
+            />
+          </button>
           <div className="flex h-full w-full flex-col justify-center">
             <p className="lg:text-md text-sm font-bold tracking-[-1%] lg:tracking-[-2%]">
               {post.author.username}
@@ -42,7 +59,8 @@ export default function PostCard({ post }: Props) {
         <img
           src={post.imageUrl ?? "/assets/image-Post.svg"}
           alt={String(post.id)}
-          className="size-90.25 rounded-md object-cover lg:size-150"
+          onClick={() => setOpenComments(true)}
+          className="size-90.25 cursor-pointer rounded-md object-cover lg:size-150"
         />
       </div>
       {/* Action */}
@@ -68,8 +86,8 @@ export default function PostCard({ post }: Props) {
           </div>
           <div className="flex h-7 w-12 items-center gap-1.5">
             <button
-              onClick={() => setOpenComments(true)}
-              className="flex size-6 cursor-pointer items-center justify-center gap-1 rounded-md"
+              // onClick={() => setOpenComments(true)}
+              className="flex size-6 items-center justify-center gap-1 rounded-md"
             >
               <img
                 src="/assets/icon-Comment.svg"
@@ -112,7 +130,7 @@ export default function PostCard({ post }: Props) {
       <CommentModal
         open={openComments}
         onOpenChange={setOpenComments}
-        post={post}
+        postId={post.id}
       />
     </div>
   );

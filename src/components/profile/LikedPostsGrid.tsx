@@ -1,18 +1,18 @@
 "use client";
 
-import { useUserPosts } from "@/hooks/useUserPosts";
-import { useEffect, useRef, useState } from "react";
+import { useSavedPosts } from "@/hooks/useSavedPosts";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { useUserLikedPosts } from "@/hooks/useUserLikedPosts";
 import { EmptyUserPost } from "../ui/EmptyPost";
 import CommentModal from "../feed/CommentModal";
-import type { FeedItem } from "@/types/feed";
-export default function UserPostsGrid({ userName }: { userName: string }) {
+export default function LikedPostsGrid({ username }: { username: string }) {
   const [openComments, setOpenComments] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useUserPosts(userName);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
+    useUserLikedPosts(username);
 
-  const loadMoreRef = useRef<HTMLDivElement>(null);
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (!loadMoreRef.current) return;
@@ -28,11 +28,11 @@ export default function UserPostsGrid({ userName }: { userName: string }) {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage]);
 
+  // const posts = data?.pages.flatMap((page) => page.posts) ?? [];
   const handleClick = (postId: any) => {
     setSelectedPost(postId);
     setOpenComments(true);
   };
-
   const postCount = data?.pages[0]?.pagination.total ?? 0;
 
   return postCount === 0 ? (
@@ -44,12 +44,13 @@ export default function UserPostsGrid({ userName }: { userName: string }) {
       <div className="mt-4 grid grid-cols-3 gap-1">
         {data?.pages.map((page) =>
           page.posts.map((post: any) => (
-            <img
-              key={post.id}
-              src={post.imageUrl}
-              onClick={() => handleClick(post.id)}
-              className="aspect-square w-full cursor-pointer object-cover"
-            />
+            <Fragment key={post.id}>
+              <img
+                src={post.imageUrl}
+                onClick={() => handleClick(post.id)}
+                className="aspect-square w-full cursor-pointer object-cover"
+              />
+            </Fragment>
           )),
         )}
       </div>
@@ -59,6 +60,7 @@ export default function UserPostsGrid({ userName }: { userName: string }) {
         postId={selectedPost}
       />
       <div ref={loadMoreRef} />
+
       {isFetchingNextPage && (
         <p className="py-4 text-center text-sm">Loading...</p>
       )}

@@ -1,7 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { updateProfile } from "@/lib/api/users";
 import { useSelector, useDispatch } from "react-redux";
-import { setAuth } from "@/store/slices/authSlice";
+import { setAuth, setProfile } from "@/store/slices/authSlice";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import type { RootState, AppDispatch } from "@/store";
@@ -17,13 +17,7 @@ export function useUpdateProfile() {
     mutationFn: updateProfile,
 
     onSuccess: (data) => {
-      dispatch(
-        setAuth({
-          user: data,
-          stats: stats ?? undefined,
-          token: token!,
-        }),
-      );
+      dispatch(setProfile(data));
 
       toast.success("Profile updated");
       router.back();

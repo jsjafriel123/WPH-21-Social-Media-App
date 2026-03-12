@@ -14,28 +14,34 @@ import { Smile } from "lucide-react";
 import { useComments } from "@/hooks/useComments";
 import { Fragment } from "react";
 import { timeAgo } from "@/lib/time";
-import { FeedItem } from "@/types/feed";
 import PostAction from "@/components/ui/PostAction";
 import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { usePostById } from "@/hooks/usePostById";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  post: FeedItem;
+  postId: number | null; //FeedItem | null;
 }
 
-export default function CommentModal({ open, onOpenChange, post }: Props) {
+export default function CommentModal({ open, onOpenChange, postId }: Props) {
+  const router = useRouter();
   const [comment, setComment] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const pickerRef = useRef<HTMLDivElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const createCommentMutation = useCreateComment(post.id);
-  const deleteMutation = useDeleteComment(post.id);
+  const createCommentMutation = useCreateComment(postId!);
+  const deleteMutation = useDeleteComment(postId!);
+  // Read Post details
+  const { data: post, isLoading: postLoading } = usePostById(postId!);
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
-    useComments(post.id);
-  const commentCount = data?.pages[0]?.pagination.total ?? 0;
-  console.log("Comments:", commentCount);
+    useComments(postId!);
+
   const { user } = useAuth();
+
+  const commentCount = data?.pages[0]?.pagination.total ?? 0;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -72,6 +78,11 @@ export default function CommentModal({ open, onOpenChange, post }: Props) {
     inputRef.current?.focus();
   };
 
+  if (!postId) return null;
+  if (postLoading) return <div>Loading...</div>;
+  if (!post) return null;
+  const isUser = post.author?.id === user?.id;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
@@ -103,7 +114,16 @@ export default function CommentModal({ open, onOpenChange, post }: Props) {
                     </p>
                   </div>
                 </div>
-                <button className="flex size-6 cursor-pointer text-lg font-bold">
+                <button
+                  onClick={() => {
+                    onOpenChange(false);
+                    isUser
+                      ? router.push("/myprofile")
+                      : post.author?.username &&
+                        router.push(`/friend/${post.author?.username}`);
+                  }}
+                  className="flex size-6 cursor-pointer rounded-full bg-transparent text-lg font-bold"
+                >
                   <img
                     src="/assets/icon-More.svg"
                     alt="More"
@@ -216,7 +236,7 @@ export default function CommentModal({ open, onOpenChange, post }: Props) {
                 <button
                   disabled={!comment}
                   onClick={() => handleSubmit()}
-                  className={`${!comment ? "text-neutral-600" : "text-primary-200 cursor-pointer"} absolute left-80 text-sm font-bold lg:left-98`}
+                  className={`${!comment ? "text-neutral-600" : "text-primary-200 cursor-pointer"} absolute left-80 rounded-2xl text-sm font-bold lg:left-98`}
                 >
                   Post
                 </button>

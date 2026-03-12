@@ -9,6 +9,8 @@ import { Heart } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useUserProfile } from "@/hooks/useUserProfile";
+import { useToggleFollow } from "@/hooks/useToggleFollow";
+
 export default function MyProfile() {
   const [activeTab, setActiveTab] = useState("gallery");
   // const { user, stats } = useAuth();
@@ -18,10 +20,17 @@ export default function MyProfile() {
   const params = useParams();
   const username = params.username as string;
   const { data: user, isLoading } = useUserProfile(username);
+  const toggleFollow = useToggleFollow();
   if (isLoading) return <div>Loading...</div>;
 
   if (!user) return <div>User not found</div>;
-  console.log(user);
+  // console.log(user);
+  const handleFollow = () => {
+    toggleFollow.mutate({
+      username: user!.username,
+      following: user!.isFollowing,
+    });
+  };
   return (
     <section className="flex h-197 w-98.25 flex-col p-4 lg:h-273 lg:w-211 lg:gap-4">
       {/* Post Container */}
@@ -45,7 +54,7 @@ export default function MyProfile() {
           </div>
           <div className="flex gap-3">
             <button
-              onClick={() => router.push("/update")}
+              onClick={handleFollow}
               className={`${user?.isFollowing ? "border border-neutral-900 bg-transparent" : "bg-primary-300 border-none"}flex h-10 w-77.25 justify-center gap-2 rounded-full px-4 py-1 lg:h-12 lg:w-33.75 lg:p-2`}
             >
               {user?.isFollowing ? (

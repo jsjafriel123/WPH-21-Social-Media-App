@@ -50,7 +50,7 @@ export const createPost = async ({
   return res.data.data;
 };
 
-export const getPostById = async (id: number) => {
-  const res = await api.get<ApiResponse<FeedItem>>(`/api/posts/${id}`);
+export const getPostById = async (postId: number) => {
+  const res = await api.get<ApiResponse<FeedItem>>(`/api/posts/${postId}`);
   return res.data.data;
 };

@@ -5,6 +5,11 @@ export function updatePostCaches(
   postId: number,
   updater: (post: any) => any,
 ) {
+  queryClient.setQueryData(["post", postId], (old: any) => {
+    if (!old) return old;
+    return updater(old);
+  });
+
   const updateQuery = (queryKey: readonly unknown[]) => {
     queryClient.setQueryData(queryKey, (old: any) => {
       if (!old) return old;

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPostById } from "@/lib/api/posts";
-export const usePostById = (id: number) => {
+export const usePostById = (postId: number) => {
   return useQuery({
-    queryKey: ["post", id],
-    queryFn: () => getPostById(id),
-    enabled: !!id,
+    queryKey: ["post", postId],
+    queryFn: () => getPostById(postId),
+    enabled: !!postId,
   });
 };

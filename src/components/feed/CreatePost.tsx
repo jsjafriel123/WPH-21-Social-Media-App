@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useCreatePost } from "@/hooks/useCreatePost";
 import ImageUploader from "./ImageUploader";
 import { useRouter } from "next/navigation";
@@ -30,14 +30,32 @@ export default function CreatePost() {
     );
   };
 
+  const preview = useMemo(() => {
+    if (!image) return null;
+    return URL.createObjectURL(image);
+  }, [image]);
+
   return (
     <section className="flex min-h-94.25 w-90.25 flex-col gap-6 lg:min-h-111.25 lg:w-113">
       <div className="min-h-43.5 w-full gap-0.5">
-        <p className="text-sm font-bold tracking-[-2%]">Photo</p>
+        <p className="text-sm font-bold tracking-[-2%]">
+          Photo
+          {image && (
+            <span className="text-primary-200">
+              {" "}
+              ( Click it to change the Photo )
+            </span>
+          )}
+        </p>
         {!image && <ImageUploader onFile={setImage} />}
 
         {image && (
-          <img src={URL.createObjectURL(image)} className="rounded-xl" />
+          <button
+            onClick={() => setImage(null)}
+            className="rounded-md bg-black/60"
+          >
+            <img src={preview!} className="rounded-xl" />
+          </button>
         )}
       </div>
       <div className="flex h-32.75 w-full flex-col gap-0.5">

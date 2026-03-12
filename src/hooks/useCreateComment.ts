@@ -49,24 +49,6 @@ export function useCreateComment(postId: number) {
         };
       });
 
-      // queryClient.setQueryData(["feed"], (old: any) => {
-      //   if (!old) return old;
-
-      //   return {
-      //     ...old,
-      //     pages: old.pages.map((page: any) => ({
-      //       ...page,
-      //       items: page.items.map((post: any) => {
-      //         if (post.id !== postId) return post;
-
-      //         return {
-      //           ...post,
-      //           commentCount: post.commentCount + 1,
-      //         };
-      //       }),
-      //     })),
-      //   };
-      // });
       updatePostCaches(queryClient, postId, (post) => ({
         ...post,
         commentCount: post.commentCount + 1,

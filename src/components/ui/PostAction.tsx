@@ -9,17 +9,21 @@ export default function PostAction({ post }: Props) {
   const toggleLike = useToggleLike();
 
   const handleLike = () => {
+    console.log("LikedByMe1?", post.likedByMe);
+
     toggleLike.mutate({
       postId: post.id,
       liked: post.likedByMe,
     });
+    console.log("LikedByMe2?", post.likedByMe);
   };
+
   return (
     <div className="flex h-7 w-full justify-between lg:h-7.5">
       <div className="flex h-full w-42 gap-3 lg:w-46.25 lg:gap-4">
         <div className="flex h-7 w-12 items-center gap-1.5">
           <button
-            onClick={handleLike}
+            onClick={() => handleLike()}
             className="flex size-6 cursor-pointer items-center justify-center gap-1 rounded-md"
           >
             <Heart

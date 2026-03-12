@@ -9,43 +9,13 @@ import { useRouter } from "next/navigation";
 
 export default function SearchForm() {
   const [input, setInput] = useState("");
-  // const navigate = useNavigate();
-  // const location = useLocation();
   const debouncedSearch = useDebounce(input, 400);
   const router = useRouter();
   const { data, isLoading } = useUserSearch(debouncedSearch);
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-
-  //   const params = new URLSearchParams(location.search);
-
-  //   if (!input.trim()) {
-  //     params.delete("q");
-  //   } else {
-  //     params.set("q", input.trim());
-  //   }
-
-  // Reset page when new search
-  // params.delete("page");
-
-  // navigate(
-  //   {
-  //     pathname: "/books",
-  //     search: params.toString(),
-  //   },
-  //   { replace: location.pathname === "/books" },
-  // );
-  // };
-
-  // useEffect(() => {
-  //   const params = new URLSearchParams(location.search);
-  //   const q = params.get("q") ?? "";
-  //   setInput(q);
-  // }, [location.search]);
   const handleSelect = (user: UserSearchItem) => {
     setInput("");
-    router.push(`/user/${user.username}`);
+    router.push(`/friend/${user.username}`);
   };
 
   return (

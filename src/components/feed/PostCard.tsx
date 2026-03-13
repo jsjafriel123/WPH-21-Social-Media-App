@@ -123,9 +123,17 @@ export default function PostCard({ post }: Props) {
           {post.author.username}
         </p>
         <p className="text-sm font-normal tracking-[-2%]">{post.caption}</p>
-        <p className="text-primary-200 text-sm font-bold tracking-[-1%]">
+        <button
+          onClick={() => {
+            isUser
+              ? router.push("/myprofile")
+              : post.author?.username &&
+                router.push(`/friend/${post.author?.username}`);
+          }}
+          className="text-primary-200 flex w-fit cursor-pointer rounded-4xl bg-transparent text-sm font-bold tracking-[-1%]"
+        >
           Show More
-        </p>
+        </button>
       </div>
       <CommentModal
         open={openComments}

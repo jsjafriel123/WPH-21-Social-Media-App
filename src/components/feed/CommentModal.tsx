@@ -106,7 +106,7 @@ export default function CommentModal({ open, onOpenChange, postId }: Props) {
                     className="rounded-full object-cover lg:size-10"
                   />
                   <div className="flex h-full w-full flex-col justify-center gap-0.5">
-                    <p className="text-sm font-bold tracking-[-1%]">
+                    <p className="text-md font-bold tracking-[-1%]">
                       {post.author?.username}
                     </p>
                     <p className="text-xs font-normal tracking-normal text-neutral-400">

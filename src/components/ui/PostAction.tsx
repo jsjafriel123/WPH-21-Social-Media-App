@@ -9,13 +9,13 @@ export default function PostAction({ post }: Props) {
   const toggleLike = useToggleLike();
 
   const handleLike = () => {
-    console.log("LikedByMe1?", post.likedByMe);
+    // console.log("LikedByMe1?", post.likedByMe);
 
     toggleLike.mutate({
       postId: post.id,
       liked: post.likedByMe,
     });
-    console.log("LikedByMe2?", post.likedByMe);
+    // console.log("LikedByMe2?", post.likedByMe);
   };
 
   return (

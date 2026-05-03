@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -18,6 +19,9 @@ import PostAction from "@/components/ui/PostAction";
 import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { usePostById } from "@/hooks/usePostById";
+// import { MoreMenu } from "../ui/MoreMenu";
+// import DeleteMyFeed from "../ui/DeleteMyFeed";
+
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -130,10 +134,17 @@ export default function CommentModal({ open, onOpenChange, postId }: Props) {
                     className="object-contain"
                   />
                 </button>
+                {/* {isUser && (
+                  // <MoreMenu id={post.id} onOpenChange={onOpenChange} />
+                  <DeleteMyFeed postId={post.id} />
+                )} */}
               </DialogTitle>
-              <div className="h-11xl flex w-full overflow-y-auto">
+              <DialogDescription className="h-11xl flex w-full overflow-y-auto text-sm tracking-[-2%]">
+                {post.caption}
+              </DialogDescription>
+              {/* <div className="h-11xl flex w-full overflow-y-auto">
                 <p className="text-sm tracking-[-2%]">{post.caption}</p>
-              </div>
+              </div> */}
             </DialogHeader>
 
             <div className="hidden h-px w-full border border-neutral-900 lg:flex" />

@@ -28,6 +28,7 @@ export default function UserPostsGrid({ userName }: { userName: string }) {
   }, [fetchNextPage, hasNextPage]);
 
   const handleClick = (postId: any) => {
+    // console.log("Post ID:", postId);
     setSelectedPost(postId);
     setOpenComments(true);
   };

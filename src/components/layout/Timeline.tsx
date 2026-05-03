@@ -3,6 +3,8 @@
 import { useFeeds } from "@/hooks/useFeed";
 import PostCard from "@/components/feed/PostCard";
 import { useRef, useEffect } from "react";
+import { EmptyUserPost } from "../ui/EmptyPost";
+
 export default function Timeline() {
   // const { data, isLoading } = useFeed();
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
@@ -33,19 +35,26 @@ export default function Timeline() {
   if (isLoading) {
     return <p className="p-4">Loading...</p>;
   }
+  const feeds = data?.pages[0].pagination.total;
+  // console.log("data:", feeds);
 
   return (
     <section className="flex max-h-593 w-90.25 flex-col items-center gap-4 lg:max-h-894 lg:w-150 lg:gap-6">
-      {/* Card */}
-      {data?.pages.map((page) =>
-        page.items.map((post) => <PostCard key={post.id} post={post} />),
-      )}
-      <div ref={loadMoreRef} />
-
-      {isFetchingNextPage && (
-        <p className="text-muted-foreground text-center text-sm">
-          Loading more...
-        </p>
+      {feeds === 0 ? (
+        <EmptyUserPost />
+      ) : (
+        <>
+          {/* Card */}
+          {data?.pages.map((page) =>
+            page.items.map((post) => <PostCard key={post.id} post={post} />),
+          )}
+          <div ref={loadMoreRef} />
+          {isFetchingNextPage && (
+            <p className="text-muted-foreground text-center text-sm">
+              Loading more...
+            </p>
+          )}{" "}
+        </>
       )}
     </section>
   );

@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/hooks/useAuth";
+// import { useAuth } from "@/hooks/useAuth";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 // import SavedPostsGrid from "@/components/profile/SavedPostsGrid";
 import LikedPostsGrid from "@/components/profile/LikedPostsGrid";

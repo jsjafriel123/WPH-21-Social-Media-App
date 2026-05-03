@@ -51,7 +51,7 @@ export function useDeleteComment(postId: number) {
       // });
       updatePostCaches(queryClient, postId, (post) => ({
         ...post,
-        commentCount: post.commentCount + 1,
+        commentCount: post.commentCount - 1,
       }));
       return { previousData };
     },

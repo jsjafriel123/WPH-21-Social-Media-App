@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/app/globals.css";
 import { Toaster } from "sonner";
 import { sfDisplay, sfText } from "@/lib/fonts";
 import Providers from "@/components/Providers";
 // import FloatingMenu from "@/components/layout/FloatingMenu";
 import AuthProvider from "@/components/AuthProvider";
+
 export const metadata: Metadata = {
   title: "Social Media App",
   description: "A social media web app",

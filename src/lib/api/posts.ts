@@ -54,3 +54,8 @@ export const getPostById = async (postId: number) => {
   const res = await api.get<ApiResponse<FeedItem>>(`/api/posts/${postId}`);
   return res.data.data;
 };
+
+export async function deletePost(postId: number) {
+  const res = await api.delete(`/api/posts/${postId}`);
+  return res.data;
+}

@@ -58,7 +58,7 @@ export default function MyProfile() {
         <div className="flex h-12.5 w-full justify-between gap-6 lg:h-16.5">
           <div className="h-12.5 w-[54.25px] gap-0.5 lg:h-16.5 lg:w-41.75">
             <p className="text-center text-lg font-bold tracking-[-3%] lg:text-xl lg:tracking-[-2%]">
-              {stats?.posts}
+              {stats?.posts || 0}
             </p>
             <p className="lg:text-md text-center text-xs font-normal text-neutral-400 lg:tracking-[-2%]">
               Post
@@ -67,7 +67,7 @@ export default function MyProfile() {
           <div className="h-full w-px border border-neutral-900" />
           <div className="h-12.5 w-[54.25px] gap-0.5 lg:h-16.5 lg:w-41.75">
             <p className="text-center text-lg font-bold tracking-[-3%] lg:text-xl lg:tracking-[-2%]">
-              {stats?.followers}
+              {stats?.followers || 0}
             </p>
             <p className="lg:text-md text-center text-xs font-normal text-neutral-400 lg:tracking-[-2%]">
               Followers
@@ -76,7 +76,7 @@ export default function MyProfile() {
           <div className="h-full w-px border border-neutral-900" />
           <div className="h-12.5 w-[54.25px] gap-0.5 lg:h-16.5 lg:w-41.75">
             <p className="text-center text-lg font-bold tracking-[-3%] lg:text-xl lg:tracking-[-2%]">
-              {stats?.following}
+              {stats?.following || 0}
             </p>
             <p className="lg:text-md text-center text-xs font-normal text-neutral-400 lg:tracking-[-2%]">
               Following
@@ -85,7 +85,7 @@ export default function MyProfile() {
           <div className="h-full w-px border border-neutral-900" />
           <div className="h-12.5 w-[54.25px] gap-0.5 lg:h-16.5 lg:w-41.75">
             <p className="text-center text-lg font-bold tracking-[-3%] lg:text-xl lg:tracking-[-2%]">
-              {stats?.likes}
+              {stats?.likes || 0}
             </p>
             <p className="lg:text-md text-center text-xs font-normal text-neutral-400 lg:tracking-[-2%]">
               Likes

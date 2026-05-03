@@ -1,14 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "./input";
 import { useUserSearch } from "@/hooks/useUserSearch";
 import { useDebounce } from "@/hooks/useDebounce";
 import type { UserSearchItem } from "@/types/user";
-import { Router } from "next/router";
+// import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 // import { useNavigate, useLocation } from "react-router-dom";
 
 export default function SearchForm() {
   const [input, setInput] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
   const debouncedSearch = useDebounce(input, 400);
   const router = useRouter();
   const { data, isLoading } = useUserSearch(debouncedSearch);
@@ -25,6 +26,10 @@ export default function SearchForm() {
         type="search"
         placeholder="Search user"
         value={input}
+        onFocus={() => setIsOpen(true)}
+        onBlur={() => {
+          setTimeout(() => setIsOpen(false), 150);
+        }}
         onChange={(e) => setInput(e.target.value)}
         className="bg-background text-foreground h-10 w-66.25 gap-1.5 rounded-full border border-neutral-900 px-3 py-2 lg:h-12 lg:w-122.75 lg:pr-4 lg:pl-10"
       />
@@ -39,14 +44,18 @@ export default function SearchForm() {
         />
       </button>
 
+      {!isLoading && data?.length === 0 && (
+        <p className="text-muted-foreground p-3 text-sm">No users found</p>
+      )}
+
       {/* dropdown */}
-      {debouncedSearch && (
+      {isOpen && debouncedSearch && (
         <div className="bg-background absolute mt-2 w-full rounded-md border shadow-lg">
           {isLoading && (
             <p className="text-muted-foreground p-3 text-sm">Searching...</p>
           )}
 
-          {data?.users.map((user) => (
+          {data?.map((user) => (
             <div
               key={user.id}
               onMouseDown={() => handleSelect(user)}

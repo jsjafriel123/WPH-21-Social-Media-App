@@ -1,4 +1,8 @@
+import { useRouter } from "next/navigation";
+
 export function EmptyUserPost() {
+  const router = useRouter();
+
   return (
     <section className="flex h-93.75 w-full flex-col items-center justify-center gap-6 lg:h-42 lg:w-113.25">
       <div className="flex h-29.5 w-full flex-col gap-1 lg:h-24">
@@ -10,7 +14,10 @@ export function EmptyUserPost() {
           and memories. Make this space truly yours.
         </p>
       </div>
-      <button className="lg:text-md bg-primary-300 h-10 w-64.75 rounded-full p-2 text-center text-sm font-bold tracking-[-1%] lg:h-12 lg:tracking-[-2%]">
+      <button
+        onClick={() => router.push("/new")}
+        className="lg:text-md bg-primary-300 h-10 w-64.75 rounded-full p-2 text-center text-sm font-bold tracking-[-1%] lg:h-12 lg:tracking-[-2%]"
+      >
         Upload My First Post
       </button>
     </section>
